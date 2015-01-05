@@ -102,6 +102,7 @@ Ember.AddeparMixins.ResizeHandlerMixin,
   optionValuePath: ''
   optionGroupPath: ''
   optionDefaultPath: ''
+  autofocusSearch: yes
 
   # This augments the dropdown to provide a place for adding a select menu that
   # possibly says 'create item' or something along that line
@@ -183,7 +184,8 @@ Ember.AddeparMixins.ResizeHandlerMixin,
     # to finishes before trying to focus the input. Otherwise, focus when be
     # "stolen" from us.
     showDropdownDidChange: Ember.observer ->
-      Ember.run.schedule 'afterRender', this, ->
+      if @get('autofocusSearch')
+        Ember.run.schedule 'afterRender', this, ->
           @$().focus() if (@get('_state') or @get('state')) is 'inDOM'
     , 'parentView.showDropdown'
 
